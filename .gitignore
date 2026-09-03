@@ -26,3 +26,7 @@ Thumbs.db
 
 # WPF build temp project
 *_wpftmp.csproj
+
+# node
+node_modules/
+package-lock.json

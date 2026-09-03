@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "r-prototype",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["r-prototype/server.js"],
+      "port": 8091
+    }
+  ]
+}
