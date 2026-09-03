@@ -155,7 +155,10 @@ pane.addEventListener('click', () => {           // tap to page through history
 });
 
 // ---- WebR ----
-const webR = new WebR({ baseUrl: new URL('./node_modules/@r-wasm/webr/dist/', location.href).href });
+const webR = new WebR({
+  baseUrl: new URL('./node_modules/@r-wasm/webr/dist/', location.href).href,
+  createLazyFilesystem: false,
+});
 const t0 = performance.now();
 let busy = true;
 
@@ -172,6 +175,8 @@ document.querySelectorAll('#demos button').forEach(b => b.disabled = false);
 cmdEl.focus();
 busy = false;
 
+let tStart = 0;
+
 // main read loop — stream stdout/stderr/canvas back from R
 (async function loop(){
   for (;;){
@@ -180,30 +185,24 @@ busy = false;
       case 'stdout': line('out', out.data); break;
       case 'stderr': line('err', out.data); break;
       case 'canvas': onCanvasMessage(out.data); break;
-      case 'prompt': /* R is waiting for input */ break;
+      case 'prompt':
+        if (busy){
+          busy = false; runEl.disabled = false; setStatus('ready', 'idle');
+          line('sys', `(${((performance.now()-tStart)/1000).toFixed(2)}s)`);
+          cmdEl.focus();
+        }
+        break;
     }
   }
 })();
 
-async function runR(code){
+function runR(code){
   if (busy || !code.trim()) return;
-  busy = true;
+  busy = true; tStart = performance.now();
   setStatus('busy', 'running…');
   runEl.disabled = true;
   code.split('\n').forEach(l => line('in', '> ' + l));
-  const tr = performance.now();
-  try {
-    await webR.writeConsole(code + '\n');
-    // give the read-loop a beat to drain, then time it
-    await webR.evalRVoid('invisible(NULL)');
-    line('sys', `(${((performance.now()-tr)/1000).toFixed(2)}s)`);
-  } catch (e){
-    line('err', String(e));
-  }
-  busy = false;
-  setStatus('ready', 'idle');
-  runEl.disabled = false;
-  cmdEl.focus();
+  webR.writeConsole(code + '\n');
 }
 
 runEl.addEventListener('click', () => { const v = cmdEl.value; cmdEl.value=''; runR(v); });

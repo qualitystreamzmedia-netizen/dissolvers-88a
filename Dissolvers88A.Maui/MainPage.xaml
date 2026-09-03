@@ -24,13 +24,16 @@
                 <Border.StrokeShape><RoundRectangle CornerRadius="12" /></Border.StrokeShape>
                 <HorizontalStackLayout Spacing="0">
                     <Button x:Name="CalcTab" Text="Calc" Clicked="OnCalcTab"
-                            FontSize="13" FontAttributes="Bold" CornerRadius="9" Padding="14,7" HeightRequest="34"
+                            FontSize="13" FontAttributes="Bold" CornerRadius="9" Padding="11,7" HeightRequest="34"
                             BackgroundColor="{StaticResource D.Navy}" TextColor="White" />
                     <Button x:Name="GraphTab" Text="Graph" Clicked="OnGraphTab"
-                            FontSize="13" FontAttributes="Bold" CornerRadius="9" Padding="14,7" HeightRequest="34"
+                            FontSize="13" FontAttributes="Bold" CornerRadius="9" Padding="11,7" HeightRequest="34"
                             BackgroundColor="Transparent" TextColor="{StaticResource D.TextSecond}" />
                     <Button x:Name="StatsTab" Text="Stats" Clicked="OnStatsTab"
-                            FontSize="13" FontAttributes="Bold" CornerRadius="9" Padding="14,7" HeightRequest="34"
+                            FontSize="13" FontAttributes="Bold" CornerRadius="9" Padding="11,7" HeightRequest="34"
+                            BackgroundColor="Transparent" TextColor="{StaticResource D.TextSecond}" />
+                    <Button x:Name="RTab" Text="R" Clicked="OnRTab"
+                            FontSize="13" FontAttributes="Bold" CornerRadius="9" Padding="11,7" HeightRequest="34"
                             BackgroundColor="Transparent" TextColor="{StaticResource D.TextSecond}" />
                 </HorizontalStackLayout>
             </Border>
@@ -45,6 +48,7 @@
             <views:CalculatorView x:Name="CalcView" />
             <views:GrapherView x:Name="GraphView" IsVisible="False" />
             <views:StatsView x:Name="StatsView" IsVisible="False" />
+            <views:RView x:Name="RView" IsVisible="False" />
         </Grid>
     </Grid>
 </ContentPage>
