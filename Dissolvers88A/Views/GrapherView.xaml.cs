@@ -39,9 +39,14 @@ public partial class GrapherView : UserControl
     private void Plot_Changed(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
     {
         if (PlotKindBox == null || PlotXBox == null || PlotYBox == null) return;
-        ViewModel.PlotKind = (StatPlotKind)PlotKindBox.SelectedIndex;
+        var newKind = (StatPlotKind)PlotKindBox.SelectedIndex;
+        bool turnedOn = ViewModel.PlotKind == StatPlotKind.Off && newKind != StatPlotKind.Off;
+
+        ViewModel.PlotKind = newKind;
         ViewModel.PlotXList = Math.Max(0, PlotXBox.SelectedIndex);
         ViewModel.PlotYList = Math.Max(0, PlotYBox.SelectedIndex);
+
+        if (turnedOn) { ViewModel.ZoomStat(); PushWindowToBoxes(); }
     }
 
     /// <summary>Turn on a stat plot from elsewhere (e.g. 2-Var Stats → scatter).</summary>
@@ -50,6 +55,8 @@ public partial class GrapherView : UserControl
         PlotXBox.SelectedIndex = xList;
         PlotYBox.SelectedIndex = yList;
         PlotKindBox.SelectedIndex = (int)kind;   // fires Plot_Changed
+        ViewModel.ZoomStat();                    // frame the data even if the plot was already on
+        PushWindowToBoxes();
     }
 
     public void OnShown()
@@ -100,6 +107,7 @@ public partial class GrapherView : UserControl
     private void Zoom_Out(object s, System.Windows.RoutedEventArgs e) { ViewModel.ZoomOut(); PushWindowToBoxes(); }
     private void Zoom_Trig(object s, System.Windows.RoutedEventArgs e) { ViewModel.ZoomTrig(); PushWindowToBoxes(); }
     private void Zoom_Decimal(object s, System.Windows.RoutedEventArgs e) { ViewModel.ZoomDecimal(); PushWindowToBoxes(); }
+    private void Zoom_Stat(object s, System.Windows.RoutedEventArgs e) { ViewModel.ZoomStat(); PushWindowToBoxes(); }
 
     private void Trace_Click(object sender, System.Windows.RoutedEventArgs e)
     {

@@ -90,6 +90,27 @@ public sealed class GrapherViewModel : ObservableObject
         Redraw();
     }
 
+    /// <summary>ZoomStat — scale the window to the min/max of the stat plot's lists.</summary>
+    public void ZoomStat()
+    {
+        if (_plotKind == StatPlotKind.Off) return;
+        var xs = StatData[PlotXList];
+        if (xs.Count == 0) return;
+
+        if (_plotKind is StatPlotKind.Scatter or StatPlotKind.XyLine)
+        {
+            var ys = StatData[PlotYList];
+            int n = Math.Min(xs.Count, ys.Count);
+            if (n == 0) return;
+            Viewport.FitToData(xs.Take(n).ToList(), ys.Take(n).ToList());
+        }
+        else   // Histogram / Box — one-variable, frame the X data only
+        {
+            Viewport.FitToData(xs, Array.Empty<double>());
+        }
+        Redraw();
+    }
+
     public void Redraw() => GraphChanged?.Invoke();
 
     // ---- TRACE ------------------------------------------------------

@@ -129,6 +129,8 @@
                         <Button Style="{StaticResource ToolButton}" Content="Zoom Out" Click="Zoom_Out" />
                         <Button Style="{StaticResource ToolButton}" Content="Trig" Click="Zoom_Trig" />
                         <Button Style="{StaticResource ToolButton}" Content="Decimal" Click="Zoom_Decimal" />
+                        <Button Style="{StaticResource ToolButton}" Content="ZoomStat" Click="Zoom_Stat"
+                                ToolTip="Fit the window to the stat plot's lists" />
                     </WrapPanel>
 
                     <ToggleButton x:Name="TraceToggle" Style="{StaticResource Chip}" Content="TRACE  (← → keys)"

@@ -31,16 +31,20 @@ public partial class GrapherView : ContentView
         PlotYPicker.SelectedIndex = 1;
         PlotKindPicker.SelectedIndex = 0;
 
-        Vm.Functions[0].Text = "x^2";
         Loaded += (_, _) => PushWindow();
     }
 
     private void OnPlotChanged(object? sender, EventArgs e)
     {
         if (PlotKindPicker == null || PlotXPicker == null || PlotYPicker == null) return;
-        Vm.PlotKind = (StatPlotKind)Math.Max(0, PlotKindPicker.SelectedIndex);
+        var newKind = (StatPlotKind)Math.Max(0, PlotKindPicker.SelectedIndex);
+        bool turnedOn = Vm.PlotKind == StatPlotKind.Off && newKind != StatPlotKind.Off;
+
+        Vm.PlotKind = newKind;
         Vm.PlotXList = Math.Max(0, PlotXPicker.SelectedIndex);
         Vm.PlotYList = Math.Max(0, PlotYPicker.SelectedIndex);
+
+        if (turnedOn) { Vm.ZoomStat(); PushWindow(); }
     }
 
     /// <summary>Turn on a stat plot from elsewhere (e.g. 2-Var Stats → scatter).</summary>
@@ -49,6 +53,8 @@ public partial class GrapherView : ContentView
         PlotXPicker.SelectedIndex = xList;
         PlotYPicker.SelectedIndex = yList;
         PlotKindPicker.SelectedIndex = (int)kind;   // fires OnPlotChanged
+        Vm.ZoomStat();                              // frame the data even if the plot was already on
+        PushWindow();
     }
 
     public void SetDegrees(bool deg) => Vm.IsDegrees = deg;
@@ -96,6 +102,7 @@ public partial class GrapherView : ContentView
     private void Zoom_Out(object s, EventArgs e) { Vm.ZoomOut(); PushWindow(); }
     private void Zoom_Trig(object s, EventArgs e) { Vm.ZoomTrig(); PushWindow(); }
     private void Zoom_Decimal(object s, EventArgs e) { Vm.ZoomDecimal(); PushWindow(); }
+    private void Zoom_Stat(object s, EventArgs e) { Vm.ZoomStat(); PushWindow(); }
 
     private void OnTrace(object? sender, EventArgs e)
     {

@@ -75,4 +75,30 @@ public sealed class Viewport
         double pad = (hi - lo) * 0.1;
         YMin = lo - pad; YMax = hi + pad;
     }
+
+    /// <summary>
+    /// ZoomStat — frame a set of points from the min/max of each axis, with a
+    /// ~10% margin, the way a TI-84 does. An empty <paramref name="ys"/> leaves
+    /// the vertical window untouched (histograms / box plots).
+    /// </summary>
+    public void FitToData(IReadOnlyList<double> xs, IReadOnlyList<double> ys)
+    {
+        if (!Extent(xs, out double xlo, out double xhi)) return;
+        double dx = (xhi - xlo) * 0.1;
+        if (dx <= 0) dx = Math.Max(1, Math.Abs(xhi) * 0.1);
+        XMin = xlo - dx; XMax = xhi + dx;
+
+        if (!Extent(ys, out double ylo, out double yhi)) return;
+        double dy = (yhi - ylo) * 0.1;
+        if (dy <= 0) dy = Math.Max(1, Math.Abs(yhi) * 0.1);
+        YMin = ylo - dy; YMax = yhi + dy;
+    }
+
+    private static bool Extent(IReadOnlyList<double> v, out double lo, out double hi)
+    {
+        lo = double.PositiveInfinity; hi = double.NegativeInfinity;
+        foreach (var d in v)
+            if (!double.IsNaN(d) && !double.IsInfinity(d)) { lo = Math.Min(lo, d); hi = Math.Max(hi, d); }
+        return !double.IsInfinity(lo);
+    }
 }

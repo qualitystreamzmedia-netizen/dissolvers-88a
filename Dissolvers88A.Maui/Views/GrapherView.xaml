@@ -78,6 +78,7 @@
                         <Button Style="{StaticResource Tool}" Text="Out" Clicked="Zoom_Out" />
                         <Button Style="{StaticResource Tool}" Text="Trig" Clicked="Zoom_Trig" />
                         <Button Style="{StaticResource Tool}" Text="Decimal" Clicked="Zoom_Decimal" />
+                        <Button Style="{StaticResource Tool}" Text="ZoomStat" Clicked="Zoom_Stat" />
                     </HorizontalStackLayout>
                 </ScrollView>
 
