@@ -1,0 +1,104 @@
+<UserControl x:Class="Dissolvers88A.Views.StatsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             FontFamily="{StaticResource Font.Ui}">
+
+    <UserControl.Resources>
+        <Style x:Key="StatBtn" TargetType="Button">
+            <Setter Property="Background" Value="{StaticResource Brush.Card}" />
+            <Setter Property="Foreground" Value="{StaticResource Brush.AccentDark}" />
+            <Setter Property="BorderBrush" Value="{StaticResource Brush.Border}" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="FontSize" Value="13" />
+            <Setter Property="Padding" Value="12,8" />
+            <Setter Property="Margin" Value="0,0,0,8" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="b" Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="1"
+                                CornerRadius="9" Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="b" Property="BorderBrush" Value="{StaticResource Brush.Accent}" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" MinWidth="420" />
+            <ColumnDefinition Width="18" />
+            <ColumnDefinition Width="380" />
+        </Grid.ColumnDefinitions>
+
+        <!-- ===== list editor ===== -->
+        <Border Grid.Column="0" Background="{StaticResource Brush.Panel}" CornerRadius="14" Padding="12">
+            <DockPanel>
+                <Grid DockPanel.Dock="Top" Margin="4,0,4,8">
+                    <TextBlock Text="LIST EDITOR" Style="{StaticResource CapsLabel}" VerticalAlignment="Center" />
+                    <Button Content="Clear all" Style="{StaticResource StatBtn}" HorizontalAlignment="Right"
+                            Margin="0" Padding="10,4" Click="ClearAll_Click" />
+                </Grid>
+                <DataGrid x:Name="Grid" AutoGenerateColumns="False" CanUserAddRows="True" CanUserDeleteRows="True"
+                          HeadersVisibility="Column" GridLinesVisibility="All" RowHeaderWidth="0"
+                          Background="{StaticResource Brush.Input}" BorderThickness="1" BorderBrush="{StaticResource Brush.Border}"
+                          FontFamily="{StaticResource Font.Mono}" FontSize="13"
+                          CellEditEnding="Grid_CellEditEnding">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="L1" Binding="{Binding C1}" Width="*" />
+                        <DataGridTextColumn Header="L2" Binding="{Binding C2}" Width="*" />
+                        <DataGridTextColumn Header="L3" Binding="{Binding C3}" Width="*" />
+                        <DataGridTextColumn Header="L4" Binding="{Binding C4}" Width="*" />
+                        <DataGridTextColumn Header="L5" Binding="{Binding C5}" Width="*" />
+                        <DataGridTextColumn Header="L6" Binding="{Binding C6}" Width="*" />
+                    </DataGrid.Columns>
+                </DataGrid>
+            </DockPanel>
+        </Border>
+
+        <!-- ===== CALC ===== -->
+        <Border Grid.Column="2" Background="{StaticResource Brush.Panel}" CornerRadius="14" Padding="16">
+            <DockPanel>
+                <StackPanel DockPanel.Dock="Top">
+                    <TextBlock Text="1-VAR STATS" Style="{StaticResource CapsLabel}" Margin="0,0,0,6" />
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,14">
+                        <TextBlock Text="List" VerticalAlignment="Center" Foreground="{StaticResource Brush.TextMuted}" Margin="0,0,8,0" />
+                        <ComboBox x:Name="OneVarList" Width="70" SelectedIndex="0" />
+                        <Button Content="Calculate" Style="{StaticResource StatBtn}" Margin="10,0,0,0" Click="OneVar_Click" />
+                    </StackPanel>
+
+                    <TextBlock Text="2-VAR / LINEAR REGRESSION" Style="{StaticResource CapsLabel}" Margin="0,0,0,6" />
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,6">
+                        <TextBlock Text="Xlist" VerticalAlignment="Center" Foreground="{StaticResource Brush.TextMuted}" Margin="0,0,8,0" />
+                        <ComboBox x:Name="XList" Width="70" SelectedIndex="0" />
+                        <TextBlock Text="Ylist" VerticalAlignment="Center" Foreground="{StaticResource Brush.TextMuted}" Margin="14,0,8,0" />
+                        <ComboBox x:Name="YList" Width="70" SelectedIndex="1" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,4">
+                        <Button Content="2-Var Stats" Style="{StaticResource StatBtn}" Width="118" Margin="0,0,8,0" Click="TwoVar_Click" />
+                        <Button Content="LinReg  y=ax+b" Style="{StaticResource StatBtn}" Width="140" Margin="0" Click="LinReg_Click" />
+                    </StackPanel>
+                    <Button x:Name="SendY1" Content="Send fit to Y1  →" Style="{StaticResource StatBtn}"
+                            HorizontalAlignment="Left" Padding="10,5" IsEnabled="False" Click="SendY1_Click" />
+                </StackPanel>
+
+                <Border Margin="0,12,0,0" Background="{StaticResource Brush.Navy}" CornerRadius="10">
+                    <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="14,12">
+                        <TextBlock x:Name="Results" Foreground="{StaticResource Brush.DisplayText}"
+                                   FontFamily="{StaticResource Font.Mono}" FontSize="13" TextWrapping="Wrap"
+                                   Text="Enter data, pick a list, and choose a calculation." />
+                    </ScrollViewer>
+                </Border>
+            </DockPanel>
+        </Border>
+    </Grid>
+</UserControl>

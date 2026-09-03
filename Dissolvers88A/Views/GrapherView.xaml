@@ -1,0 +1,170 @@
+<UserControl x:Class="Dissolvers88A.Views.GrapherView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="clr-namespace:Dissolvers88A.Controls"
+             FontFamily="{StaticResource Font.Ui}">
+
+    <UserControl.Resources>
+        <Style x:Key="ToolButton" TargetType="Button">
+            <Setter Property="Background" Value="{StaticResource Brush.Card}" />
+            <Setter Property="Foreground" Value="{StaticResource Brush.TextSecond}" />
+            <Setter Property="BorderBrush" Value="{StaticResource Brush.Border}" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="Padding" Value="10,7" />
+            <Setter Property="Margin" Value="0,0,6,6" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="b" Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="1"
+                                CornerRadius="9" Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="b" Property="BorderBrush" Value="{StaticResource Brush.Accent}" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="WinBox" TargetType="TextBox">
+            <Setter Property="Background" Value="{StaticResource Brush.Input}" />
+            <Setter Property="BorderBrush" Value="{StaticResource Brush.Border}" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="Padding" Value="6,4" />
+            <Setter Property="FontFamily" Value="{StaticResource Font.Mono}" />
+            <Setter Property="FontSize" Value="13" />
+            <Setter Property="Margin" Value="0,2,0,6" />
+        </Style>
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="336" />
+            <ColumnDefinition Width="18" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <!-- ===== left rail ===== -->
+        <Border Grid.Column="0" Background="{StaticResource Brush.Panel}" CornerRadius="14" Padding="16">
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <StackPanel>
+                    <TextBlock Text="Y =" Style="{StaticResource CapsLabel}" Margin="0,0,0,8" />
+
+                    <ItemsControl x:Name="FunctionList">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Margin="0,0,0,8">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+                                        <Border Grid.Column="0" Width="10" Height="10" CornerRadius="3"
+                                                Background="{Binding Brush}" VerticalAlignment="Center" Margin="0,0,7,0" />
+                                        <TextBlock Grid.Column="1" Text="{Binding Label}" FontWeight="Bold"
+                                                   Foreground="{StaticResource Brush.TextSecond}" VerticalAlignment="Center"
+                                                   Margin="0,0,6,0" />
+                                        <TextBox Grid.Column="2" Text="{Binding Text, UpdateSourceTrigger=PropertyChanged}"
+                                                 Background="{StaticResource Brush.Input}" BorderBrush="{StaticResource Brush.Border}"
+                                                 BorderThickness="1" Padding="6,4" FontFamily="{StaticResource Font.Mono}"
+                                                 FontSize="13" VerticalContentAlignment="Center" />
+                                        <CheckBox Grid.Column="3" IsChecked="{Binding Enabled}" Margin="7,0,0,0"
+                                                  VerticalAlignment="Center" ToolTip="Plot this function" />
+                                    </Grid>
+                                    <TextBlock Text="{Binding Error}" Foreground="{StaticResource Brush.Danger}"
+                                               FontSize="11" Margin="24,2,0,0"
+                                               Visibility="{Binding HasError, Converter={StaticResource BoolToVis}}" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+
+                    <Separator Margin="0,10" Background="{StaticResource Brush.Border}" />
+
+                    <TextBlock Text="WINDOW" Style="{StaticResource CapsLabel}" Margin="0,0,0,8" />
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="14" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition /><RowDefinition /><RowDefinition />
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Grid.Row="0" Grid.Column="0" Text="Xmin" VerticalAlignment="Center" Margin="0,0,6,6" Foreground="{StaticResource Brush.TextMuted}" FontSize="12" />
+                        <TextBox  Grid.Row="0" Grid.Column="1" x:Name="XminBox" Style="{StaticResource WinBox}" />
+                        <TextBlock Grid.Row="0" Grid.Column="3" Text="Xmax" VerticalAlignment="Center" Margin="0,0,6,6" Foreground="{StaticResource Brush.TextMuted}" FontSize="12" />
+                        <TextBox  Grid.Row="0" Grid.Column="4" x:Name="XmaxBox" Style="{StaticResource WinBox}" />
+
+                        <TextBlock Grid.Row="1" Grid.Column="0" Text="Ymin" VerticalAlignment="Center" Margin="0,0,6,6" Foreground="{StaticResource Brush.TextMuted}" FontSize="12" />
+                        <TextBox  Grid.Row="1" Grid.Column="1" x:Name="YminBox" Style="{StaticResource WinBox}" />
+                        <TextBlock Grid.Row="1" Grid.Column="3" Text="Ymax" VerticalAlignment="Center" Margin="0,0,6,6" Foreground="{StaticResource Brush.TextMuted}" FontSize="12" />
+                        <TextBox  Grid.Row="1" Grid.Column="4" x:Name="YmaxBox" Style="{StaticResource WinBox}" />
+
+                        <TextBlock Grid.Row="2" Grid.Column="0" Text="Xscl" VerticalAlignment="Center" Margin="0,0,6,6" Foreground="{StaticResource Brush.TextMuted}" FontSize="12" />
+                        <TextBox  Grid.Row="2" Grid.Column="1" x:Name="XsclBox" Style="{StaticResource WinBox}" />
+                        <TextBlock Grid.Row="2" Grid.Column="3" Text="Yscl" VerticalAlignment="Center" Margin="0,0,6,6" Foreground="{StaticResource Brush.TextMuted}" FontSize="12" />
+                        <TextBox  Grid.Row="2" Grid.Column="4" x:Name="YsclBox" Style="{StaticResource WinBox}" />
+                    </Grid>
+
+                    <Separator Margin="0,6,0,10" Background="{StaticResource Brush.Border}" />
+
+                    <TextBlock Text="ZOOM" Style="{StaticResource CapsLabel}" Margin="0,0,0,8" />
+                    <WrapPanel>
+                        <Button Style="{StaticResource ToolButton}" Content="Standard" Click="Zoom_Standard" />
+                        <Button Style="{StaticResource ToolButton}" Content="Fit" Click="Zoom_Fit" />
+                        <Button Style="{StaticResource ToolButton}" Content="Square" Click="Zoom_Square" />
+                        <Button Style="{StaticResource ToolButton}" Content="Zoom In" Click="Zoom_In" />
+                        <Button Style="{StaticResource ToolButton}" Content="Zoom Out" Click="Zoom_Out" />
+                        <Button Style="{StaticResource ToolButton}" Content="Trig" Click="Zoom_Trig" />
+                        <Button Style="{StaticResource ToolButton}" Content="Decimal" Click="Zoom_Decimal" />
+                    </WrapPanel>
+
+                    <ToggleButton x:Name="TraceToggle" Style="{StaticResource Chip}" Content="TRACE  (← → keys)"
+                                  HorizontalAlignment="Left" Margin="0,6,0,0" Click="Trace_Click" />
+
+                    <Separator Margin="0,12,0,10" Background="{StaticResource Brush.Border}" />
+
+                    <TextBlock Text="STAT PLOT" Style="{StaticResource CapsLabel}" Margin="0,0,0,8" />
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition /><RowDefinition /><RowDefinition />
+                        </Grid.RowDefinitions>
+                        <TextBlock Grid.Row="0" Grid.Column="0" Text="Type" VerticalAlignment="Center" Margin="0,0,8,6" Foreground="{StaticResource Brush.TextMuted}" FontSize="12" />
+                        <ComboBox Grid.Row="0" Grid.Column="1" x:Name="PlotKindBox" Margin="0,0,0,6" SelectionChanged="Plot_Changed">
+                            <ComboBoxItem Content="Off" IsSelected="True" />
+                            <ComboBoxItem Content="Scatter" />
+                            <ComboBoxItem Content="xy Line" />
+                            <ComboBoxItem Content="Histogram" />
+                            <ComboBoxItem Content="Box plot" />
+                        </ComboBox>
+                        <TextBlock Grid.Row="1" Grid.Column="0" Text="Xlist" VerticalAlignment="Center" Margin="0,0,8,6" Foreground="{StaticResource Brush.TextMuted}" FontSize="12" />
+                        <ComboBox Grid.Row="1" Grid.Column="1" x:Name="PlotXBox" Margin="0,0,0,6" SelectedIndex="0" SelectionChanged="Plot_Changed" />
+                        <TextBlock Grid.Row="2" Grid.Column="0" Text="Ylist" VerticalAlignment="Center" Margin="0,0,8,6" Foreground="{StaticResource Brush.TextMuted}" FontSize="12" />
+                        <ComboBox Grid.Row="2" Grid.Column="1" x:Name="PlotYBox" SelectedIndex="1" SelectionChanged="Plot_Changed" />
+                    </Grid>
+                </StackPanel>
+            </ScrollViewer>
+        </Border>
+
+        <!-- ===== graph ===== -->
+        <Border Grid.Column="2" CornerRadius="14" ClipToBounds="True" BorderBrush="{StaticResource Brush.Navy}" BorderThickness="1">
+            <controls:GraphSurface x:Name="Surface" />
+        </Border>
+    </Grid>
+</UserControl>

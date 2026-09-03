@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:Dissolvers88A.Maui.ViewModels"
+             xmlns:g="clr-namespace:Dissolvers88A.Maui.Graphing"
+             x:Class="Dissolvers88A.Maui.Views.GrapherView"
+             x:DataType="vm:GrapherViewModel">
+
+    <ContentView.Resources>
+        <Style x:Key="Tool" TargetType="Button">
+            <Setter Property="BackgroundColor" Value="{StaticResource D.Card}" />
+            <Setter Property="TextColor" Value="{StaticResource D.TextSecond}" />
+            <Setter Property="BorderColor" Value="{StaticResource D.Border}" />
+            <Setter Property="BorderWidth" Value="1" />
+            <Setter Property="CornerRadius" Value="9" />
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="FontAttributes" Value="Bold" />
+            <Setter Property="Padding" Value="10,6" />
+            <Setter Property="Margin" Value="0,0,6,0" />
+            <Setter Property="HeightRequest" Value="34" />
+        </Style>
+        <Style x:Key="WinBox" TargetType="Entry">
+            <Setter Property="BackgroundColor" Value="{StaticResource D.Input}" />
+            <Setter Property="FontFamily" Value="monospace" />
+            <Setter Property="FontSize" Value="13" />
+            <Setter Property="HeightRequest" Value="38" />
+            <Setter Property="Keyboard" Value="Numeric" />
+        </Style>
+    </ContentView.Resources>
+
+    <Grid RowDefinitions="3*,2.2*" RowSpacing="8">
+
+        <Border Grid.Row="0" StrokeThickness="1" Stroke="{StaticResource D.Navy}">
+            <Border.StrokeShape><RoundRectangle CornerRadius="14" /></Border.StrokeShape>
+            <Grid>
+                <GraphicsView x:Name="Surface">
+                    <GraphicsView.GestureRecognizers>
+                        <PanGestureRecognizer PanUpdated="OnPan" />
+                        <PinchGestureRecognizer PinchUpdated="OnPinch" />
+                    </GraphicsView.GestureRecognizers>
+                </GraphicsView>
+                <Label Text="{Binding TraceReadout}" IsVisible="{Binding Tracing}"
+                       BackgroundColor="#D9080E1A" TextColor="White" FontFamily="monospace" FontSize="12"
+                       Padding="10,6" Margin="8" VerticalOptions="End" HorizontalOptions="Start" />
+            </Grid>
+        </Border>
+
+        <ScrollView Grid.Row="1">
+            <VerticalStackLayout Spacing="6">
+
+                <Label Text="Y =" FontSize="11" FontAttributes="Bold" TextColor="{StaticResource D.LabelCaps}" />
+                <VerticalStackLayout BindableLayout.ItemsSource="{Binding Functions}" Spacing="2">
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate x:DataType="g:GraphFunction">
+                            <Grid ColumnDefinitions="14,26,*,32" RowDefinitions="Auto,Auto" ColumnSpacing="4">
+                                <Ellipse Grid.Row="0" Grid.Column="0" WidthRequest="9" HeightRequest="9"
+                                         Fill="{Binding Fill}" VerticalOptions="Center" />
+                                <Label Grid.Row="0" Grid.Column="1" Text="{Binding Label}" FontAttributes="Bold" FontSize="12"
+                                       TextColor="{StaticResource D.TextSecond}" VerticalOptions="Center" />
+                                <Entry Grid.Row="0" Grid.Column="2" Text="{Binding Text}" Placeholder="expression in X"
+                                       BackgroundColor="{StaticResource D.Input}" FontFamily="monospace" FontSize="13"
+                                       HeightRequest="38" />
+                                <CheckBox Grid.Row="0" Grid.Column="3" IsChecked="{Binding Enabled}" VerticalOptions="Center" />
+                                <Label Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2" Text="{Binding StatusText}"
+                                       IsVisible="{Binding HasError}" TextColor="{StaticResource D.Danger}" FontSize="10" />
+                            </Grid>
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </VerticalStackLayout>
+
+                <Label Text="ZOOM" FontSize="11" FontAttributes="Bold" TextColor="{StaticResource D.LabelCaps}" Margin="0,4,0,0" />
+                <ScrollView Orientation="Horizontal" HorizontalScrollBarVisibility="Never">
+                    <HorizontalStackLayout>
+                        <Button Style="{StaticResource Tool}" Text="Standard" Clicked="Zoom_Standard" />
+                        <Button Style="{StaticResource Tool}" Text="Fit" Clicked="Zoom_Fit" />
+                        <Button Style="{StaticResource Tool}" Text="Square" Clicked="Zoom_Square" />
+                        <Button Style="{StaticResource Tool}" Text="In" Clicked="Zoom_In" />
+                        <Button Style="{StaticResource Tool}" Text="Out" Clicked="Zoom_Out" />
+                        <Button Style="{StaticResource Tool}" Text="Trig" Clicked="Zoom_Trig" />
+                        <Button Style="{StaticResource Tool}" Text="Decimal" Clicked="Zoom_Decimal" />
+                    </HorizontalStackLayout>
+                </ScrollView>
+
+                <Label Text="WINDOW" FontSize="11" FontAttributes="Bold" TextColor="{StaticResource D.LabelCaps}" Margin="0,4,0,0" />
+                <Grid ColumnDefinitions="Auto,*,Auto,*" RowDefinitions="Auto,Auto,Auto" ColumnSpacing="6" RowSpacing="3">
+                    <Label Text="Xmin" Grid.Row="0" Grid.Column="0" VerticalOptions="Center" FontSize="12" TextColor="{StaticResource D.TextMuted}" />
+                    <Entry x:Name="XminBox" Grid.Row="0" Grid.Column="1" Style="{StaticResource WinBox}" />
+                    <Label Text="Xmax" Grid.Row="0" Grid.Column="2" VerticalOptions="Center" FontSize="12" TextColor="{StaticResource D.TextMuted}" />
+                    <Entry x:Name="XmaxBox" Grid.Row="0" Grid.Column="3" Style="{StaticResource WinBox}" />
+                    <Label Text="Ymin" Grid.Row="1" Grid.Column="0" VerticalOptions="Center" FontSize="12" TextColor="{StaticResource D.TextMuted}" />
+                    <Entry x:Name="YminBox" Grid.Row="1" Grid.Column="1" Style="{StaticResource WinBox}" />
+                    <Label Text="Ymax" Grid.Row="1" Grid.Column="2" VerticalOptions="Center" FontSize="12" TextColor="{StaticResource D.TextMuted}" />
+                    <Entry x:Name="YmaxBox" Grid.Row="1" Grid.Column="3" Style="{StaticResource WinBox}" />
+                    <Label Text="Xscl" Grid.Row="2" Grid.Column="0" VerticalOptions="Center" FontSize="12" TextColor="{StaticResource D.TextMuted}" />
+                    <Entry x:Name="XsclBox" Grid.Row="2" Grid.Column="1" Style="{StaticResource WinBox}" />
+                    <Label Text="Yscl" Grid.Row="2" Grid.Column="2" VerticalOptions="Center" FontSize="12" TextColor="{StaticResource D.TextMuted}" />
+                    <Entry x:Name="YsclBox" Grid.Row="2" Grid.Column="3" Style="{StaticResource WinBox}" />
+                </Grid>
+
+                <Button x:Name="TraceButton" Style="{StaticResource Tool}" Text="TRACE  ·  drag to move"
+                        HorizontalOptions="Start" Margin="0,6,0,0" Clicked="OnTrace" />
+
+                <Label Text="STAT PLOT" FontSize="11" FontAttributes="Bold" TextColor="{StaticResource D.LabelCaps}" Margin="0,8,0,0" />
+                <Grid ColumnDefinitions="Auto,*,Auto,Auto,Auto,Auto" ColumnSpacing="6" Margin="0,0,0,10">
+                    <Label Grid.Column="0" Text="Type" VerticalOptions="Center" FontSize="12" TextColor="{StaticResource D.TextMuted}" />
+                    <Picker Grid.Column="1" x:Name="PlotKindPicker" SelectedIndexChanged="OnPlotChanged">
+                        <Picker.ItemsSource>
+                            <x:Array Type="{x:Type x:String}">
+                                <x:String>Off</x:String>
+                                <x:String>Scatter</x:String>
+                                <x:String>xy Line</x:String>
+                                <x:String>Histogram</x:String>
+                                <x:String>Box plot</x:String>
+                            </x:Array>
+                        </Picker.ItemsSource>
+                    </Picker>
+                    <Label Grid.Column="2" Text="X" VerticalOptions="Center" FontSize="12" TextColor="{StaticResource D.TextMuted}" />
+                    <Picker Grid.Column="3" x:Name="PlotXPicker" WidthRequest="64" SelectedIndexChanged="OnPlotChanged" />
+                    <Label Grid.Column="4" Text="Y" VerticalOptions="Center" FontSize="12" TextColor="{StaticResource D.TextMuted}" />
+                    <Picker Grid.Column="5" x:Name="PlotYPicker" WidthRequest="64" SelectedIndexChanged="OnPlotChanged" />
+                </Grid>
+
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+</ContentView>

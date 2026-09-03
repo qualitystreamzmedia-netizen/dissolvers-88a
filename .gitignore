@@ -1,0 +1,28 @@
+# Build output
+bin/
+obj/
+dist/
+
+# Publish
+publish/
+*.apk
+*.aab
+
+# IDE / user
+.vs/
+.idea/
+*.user
+*.suo
+*.userprefs
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Signing (never commit keystores)
+*.jks
+*.keystore
+*.pfx
+
+# WPF build temp project
+*_wpftmp.csproj

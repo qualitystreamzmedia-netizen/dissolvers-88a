@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Dissolvers88A.Maui.Views.StatsView">
+
+    <ContentView.Resources>
+        <Style x:Key="Tool" TargetType="Button">
+            <Setter Property="BackgroundColor" Value="{StaticResource D.Card}" />
+            <Setter Property="TextColor" Value="{StaticResource D.AccentDark}" />
+            <Setter Property="BorderColor" Value="{StaticResource D.Border}" />
+            <Setter Property="BorderWidth" Value="1" />
+            <Setter Property="CornerRadius" Value="9" />
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="FontAttributes" Value="Bold" />
+            <Setter Property="Padding" Value="10,6" />
+            <Setter Property="Margin" Value="0,0,6,6" />
+            <Setter Property="HeightRequest" Value="36" />
+        </Style>
+    </ContentView.Resources>
+
+    <Grid RowDefinitions="Auto,Auto,Auto,*" RowSpacing="8">
+
+        <Grid Grid.Row="0" ColumnDefinitions="Auto,Auto,*,Auto" ColumnSpacing="8">
+            <Label Grid.Column="0" Text="Editing" VerticalOptions="Center" FontSize="12"
+                   TextColor="{StaticResource D.LabelCaps}" FontAttributes="Bold" />
+            <Picker Grid.Column="1" x:Name="ListPicker" WidthRequest="80" SelectedIndexChanged="OnListPicked" />
+            <Button Grid.Column="3" Text="Clear all" Style="{StaticResource Tool}" Margin="0" Clicked="OnClearAll" />
+        </Grid>
+
+        <Border Grid.Row="1" BackgroundColor="{StaticResource D.Input}" StrokeThickness="1" Stroke="{StaticResource D.Border}">
+            <Border.StrokeShape><RoundRectangle CornerRadius="10" /></Border.StrokeShape>
+            <Editor x:Name="DataEditor" HeightRequest="150" FontFamily="monospace" FontSize="14"
+                    Placeholder="one number per line — or space / comma separated" AutoSize="Disabled"
+                    TextChanged="OnDataChanged" />
+        </Border>
+
+        <VerticalStackLayout Grid.Row="2" Spacing="4">
+            <FlexLayout Wrap="Wrap">
+                <Button Text="1-Var Stats" Style="{StaticResource Tool}" Clicked="OnOneVar" />
+                <Button Text="2-Var Stats" Style="{StaticResource Tool}" Clicked="OnTwoVar" />
+                <Button Text="LinReg y=ax+b" Style="{StaticResource Tool}" Clicked="OnLinReg" />
+            </FlexLayout>
+            <Grid ColumnDefinitions="Auto,Auto,Auto,Auto,*" ColumnSpacing="6">
+                <Label Grid.Column="0" Text="Xlist" VerticalOptions="Center" FontSize="12" TextColor="{StaticResource D.TextMuted}" />
+                <Picker Grid.Column="1" x:Name="XListPicker" WidthRequest="72" />
+                <Label Grid.Column="2" Text="Ylist" VerticalOptions="Center" FontSize="12" TextColor="{StaticResource D.TextMuted}" />
+                <Picker Grid.Column="3" x:Name="YListPicker" WidthRequest="72" />
+                <Button Grid.Column="4" x:Name="SendY1" Text="Send fit → Y1" Style="{StaticResource Tool}"
+                        Margin="6,0,0,0" IsEnabled="False" Clicked="OnSendY1" />
+            </Grid>
+        </VerticalStackLayout>
+
+        <Border Grid.Row="3" BackgroundColor="{StaticResource D.Navy}" StrokeThickness="0">
+            <Border.StrokeShape><RoundRectangle CornerRadius="12" /></Border.StrokeShape>
+            <ScrollView Padding="14,12">
+                <Label x:Name="Results" TextColor="{StaticResource D.DisplayText}" FontFamily="monospace"
+                       FontSize="13" Text="Enter data, pick a list, and choose a calculation." />
+            </ScrollView>
+        </Border>
+    </Grid>
+</ContentView>

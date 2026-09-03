@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:views="clr-namespace:Dissolvers88A.Maui.Views"
+             x:Class="Dissolvers88A.Maui.MainPage"
+             Shell.NavBarIsVisible="False"
+             BackgroundColor="{StaticResource D.GradB}">
+
+    <Grid RowDefinitions="Auto,*" Padding="10,8,10,10" RowSpacing="8">
+
+        <!-- header: badge · [Calculate | Graph] · angle -->
+        <Grid Grid.Row="0" ColumnDefinitions="Auto,*,Auto" Padding="2,2">
+            <HorizontalStackLayout Grid.Column="0" Spacing="7" VerticalOptions="Center">
+                <Label Text="DISSOLVERS" FontAttributes="Bold" FontSize="15"
+                       TextColor="{StaticResource D.Navy}" VerticalOptions="Center" />
+                <Border BackgroundColor="{StaticResource D.Accent}" StrokeThickness="0" Padding="5,1" VerticalOptions="Center">
+                    <Border.StrokeShape><RoundRectangle CornerRadius="5" /></Border.StrokeShape>
+                    <Label Text="88A" TextColor="White" FontAttributes="Bold" FontSize="10" />
+                </Border>
+            </HorizontalStackLayout>
+
+            <Border Grid.Column="1" BackgroundColor="White" StrokeThickness="0" Padding="3"
+                    HorizontalOptions="Center" VerticalOptions="Center">
+                <Border.StrokeShape><RoundRectangle CornerRadius="12" /></Border.StrokeShape>
+                <HorizontalStackLayout Spacing="0">
+                    <Button x:Name="CalcTab" Text="Calc" Clicked="OnCalcTab"
+                            FontSize="13" FontAttributes="Bold" CornerRadius="9" Padding="14,7" HeightRequest="34"
+                            BackgroundColor="{StaticResource D.Navy}" TextColor="White" />
+                    <Button x:Name="GraphTab" Text="Graph" Clicked="OnGraphTab"
+                            FontSize="13" FontAttributes="Bold" CornerRadius="9" Padding="14,7" HeightRequest="34"
+                            BackgroundColor="Transparent" TextColor="{StaticResource D.TextSecond}" />
+                    <Button x:Name="StatsTab" Text="Stats" Clicked="OnStatsTab"
+                            FontSize="13" FontAttributes="Bold" CornerRadius="9" Padding="14,7" HeightRequest="34"
+                            BackgroundColor="Transparent" TextColor="{StaticResource D.TextSecond}" />
+                </HorizontalStackLayout>
+            </Border>
+
+            <Button Grid.Column="2" x:Name="AngleButton" Text="RAD" Clicked="OnAngle"
+                    BackgroundColor="{StaticResource D.Accent}" TextColor="White"
+                    FontSize="12" FontAttributes="Bold" CornerRadius="14" Padding="14,4" HeightRequest="32" />
+        </Grid>
+
+        <!-- body -->
+        <Grid Grid.Row="1">
+            <views:CalculatorView x:Name="CalcView" />
+            <views:GrapherView x:Name="GraphView" IsVisible="False" />
+            <views:StatsView x:Name="StatsView" IsVisible="False" />
+        </Grid>
+    </Grid>
+</ContentPage>

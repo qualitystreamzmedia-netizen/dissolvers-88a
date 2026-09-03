@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:Dissolvers88A.Maui.ViewModels"
+             x:Class="Dissolvers88A.Maui.Views.CalculatorView"
+             x:DataType="vm:CalculatorViewModel">
+
+    <ContentView.Resources>
+        <Style x:Key="Key" TargetType="Button">
+            <Setter Property="BackgroundColor" Value="White" />
+            <Setter Property="TextColor" Value="{StaticResource D.Text}" />
+            <Setter Property="BorderColor" Value="{StaticResource D.Border}" />
+            <Setter Property="BorderWidth" Value="1" />
+            <Setter Property="CornerRadius" Value="12" />
+            <Setter Property="FontSize" Value="19" />
+            <Setter Property="FontAttributes" Value="Bold" />
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="Margin" Value="3" />
+        </Style>
+        <Style x:Key="KeyFn" TargetType="Button" BasedOn="{StaticResource Key}">
+            <Setter Property="BackgroundColor" Value="{StaticResource D.KeyFunction}" />
+            <Setter Property="TextColor" Value="{StaticResource D.TextSecond}" />
+            <Setter Property="FontSize" Value="15" />
+        </Style>
+        <Style x:Key="KeyOp" TargetType="Button" BasedOn="{StaticResource Key}">
+            <Setter Property="BackgroundColor" Value="{StaticResource D.AccentSoft}" />
+            <Setter Property="TextColor" Value="{StaticResource D.AccentDark}" />
+            <Setter Property="FontSize" Value="20" />
+        </Style>
+        <Style x:Key="KeyDanger" TargetType="Button" BasedOn="{StaticResource Key}">
+            <Setter Property="BackgroundColor" Value="{StaticResource D.DangerSoft}" />
+            <Setter Property="TextColor" Value="{StaticResource D.Danger}" />
+            <Setter Property="FontSize" Value="15" />
+        </Style>
+        <Style x:Key="KeyAccent" TargetType="Button" BasedOn="{StaticResource Key}">
+            <Setter Property="BackgroundColor" Value="{StaticResource D.Accent}" />
+            <Setter Property="TextColor" Value="White" />
+            <Setter Property="FontSize" Value="22" />
+        </Style>
+    </ContentView.Resources>
+
+    <Grid RowDefinitions="*,Auto" RowSpacing="8">
+
+        <Border Grid.Row="0" BackgroundColor="{StaticResource D.Navy}" StrokeThickness="0">
+            <Border.StrokeShape><RoundRectangle CornerRadius="14" /></Border.StrokeShape>
+            <Grid RowDefinitions="*,Auto,Auto,Auto" Padding="16,14">
+                <CollectionView Grid.Row="0" x:Name="HistoryList" ItemsSource="{Binding History}"
+                                SelectionMode="Single" SelectionChanged="OnHistoryTapped"
+                                VerticalScrollBarVisibility="Never">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="vm:HistoryEntry">
+                            <VerticalStackLayout Padding="0,0,0,10">
+                                <Label Text="{Binding Expression}" HorizontalTextAlignment="End"
+                                       TextColor="{StaticResource D.DisplayMuted}" FontFamily="monospace" FontSize="13"
+                                       LineBreakMode="TailTruncation" />
+                                <Label Text="{Binding Result}" HorizontalTextAlignment="End"
+                                       TextColor="{Binding ResultColor}" FontFamily="monospace" FontSize="18" />
+                            </VerticalStackLayout>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+
+                <Label Grid.Row="1" x:Name="InputLabel" Text="{Binding Input}" MinimumHeightRequest="40"
+                       BackgroundColor="Transparent" TextColor="{StaticResource D.DisplayText}"
+                       FontFamily="monospace" FontSize="30" HorizontalTextAlignment="End"
+                       VerticalTextAlignment="Center" LineBreakMode="HeadTruncation" />
+
+                <Label Grid.Row="2" Text="{Binding Preview}" HorizontalTextAlignment="End"
+                       TextColor="{StaticResource D.DisplayMuted}" FontFamily="monospace" FontSize="15" />
+
+                <Grid Grid.Row="3" ColumnDefinitions="*,Auto" Padding="0,10,0,0">
+                    <Label Text="{Binding Status}" TextColor="{StaticResource D.DisplayMuted}" FontSize="11" />
+                    <Label Grid.Column="1" Text="{Binding AnsDisplay}" TextColor="{StaticResource D.DisplayMuted}" FontSize="11" />
+                </Grid>
+            </Grid>
+        </Border>
+
+        <Border Grid.Row="1" BackgroundColor="{StaticResource D.Panel}" StrokeThickness="0" Padding="5">
+            <Border.StrokeShape><RoundRectangle CornerRadius="14" /></Border.StrokeShape>
+            <Grid x:Name="Keypad" ColumnDefinitions="*,*,*,*,*"
+                  RowDefinitions="52,52,52,52,52,52,52,52">
+
+                <Button Grid.Row="0" Grid.Column="0" x:Name="SecondKey" Text="2nd" Clicked="OnSecond"
+                        Style="{StaticResource KeyFn}" BackgroundColor="{StaticResource D.AmberSoft}"
+                        TextColor="{StaticResource D.Amber}" />
+                <Button Grid.Row="0" Grid.Column="1" Text="(" CommandParameter="(" Clicked="OnKey" Style="{StaticResource KeyFn}" />
+                <Button Grid.Row="0" Grid.Column="2" Text=")" CommandParameter=")" Clicked="OnKey" Style="{StaticResource KeyFn}" />
+                <Button Grid.Row="0" Grid.Column="3" Text="X" CommandParameter="X" Clicked="OnKey" Style="{StaticResource KeyFn}" />
+                <Button Grid.Row="0" Grid.Column="4" Text="DEL" CommandParameter="DEL" Clicked="OnKey" Style="{StaticResource KeyDanger}" />
+
+                <Button Grid.Row="1" Grid.Column="0" x:Name="KeySin" Text="sin" CommandParameter="sin(" Clicked="OnKey" Style="{StaticResource KeyFn}" />
+                <Button Grid.Row="1" Grid.Column="1" x:Name="KeyCos" Text="cos" CommandParameter="cos(" Clicked="OnKey" Style="{StaticResource KeyFn}" />
+                <Button Grid.Row="1" Grid.Column="2" x:Name="KeyTan" Text="tan" CommandParameter="tan(" Clicked="OnKey" Style="{StaticResource KeyFn}" />
+                <Button Grid.Row="1" Grid.Column="3" x:Name="KeyPow" Text="^" CommandParameter="^" Clicked="OnKey" Style="{StaticResource KeyOp}" />
+                <Button Grid.Row="1" Grid.Column="4" Text="AC" CommandParameter="AC" Clicked="OnKey" Style="{StaticResource KeyDanger}" />
+
+                <Button Grid.Row="2" Grid.Column="0" x:Name="KeyRoot" Text="√" CommandParameter="sqrt(" Clicked="OnKey" Style="{StaticResource KeyFn}" />
+                <Button Grid.Row="2" Grid.Column="1" x:Name="KeySq" Text="x²" CommandParameter="^2" Clicked="OnKey" Style="{StaticResource KeyFn}" />
+                <Button Grid.Row="2" Grid.Column="2" x:Name="KeyInv" Text="x⁻¹" CommandParameter="^-1" Clicked="OnKey" Style="{StaticResource KeyFn}" />
+                <Button Grid.Row="2" Grid.Column="3" x:Name="KeyBang" Text="!" CommandParameter="!" Clicked="OnKey" Style="{StaticResource KeyFn}" />
+                <Button Grid.Row="2" Grid.Column="4" Text="÷" CommandParameter="/" Clicked="OnKey" Style="{StaticResource KeyOp}" />
+
+                <Button Grid.Row="3" Grid.Column="0" x:Name="KeyLn" Text="ln" CommandParameter="ln(" Clicked="OnKey" Style="{StaticResource KeyFn}" />
+                <Button Grid.Row="3" Grid.Column="1" x:Name="KeyLog" Text="log" CommandParameter="log(" Clicked="OnKey" Style="{StaticResource KeyFn}" />
+                <Button Grid.Row="3" Grid.Column="2" Text="EE" CommandParameter="E" Clicked="OnKey" Style="{StaticResource KeyFn}" />
+                <Button Grid.Row="3" Grid.Column="3" Text="π" CommandParameter="π" Clicked="OnKey" Style="{StaticResource KeyFn}" />
+                <Button Grid.Row="3" Grid.Column="4" Text="×" CommandParameter="*" Clicked="OnKey" Style="{StaticResource KeyOp}" />
+
+                <Button Grid.Row="4" Grid.Column="0" Text="7" CommandParameter="7" Clicked="OnKey" Style="{StaticResource Key}" FontSize="21" />
+                <Button Grid.Row="4" Grid.Column="1" Text="8" CommandParameter="8" Clicked="OnKey" Style="{StaticResource Key}" FontSize="21" />
+                <Button Grid.Row="4" Grid.Column="2" Text="9" CommandParameter="9" Clicked="OnKey" Style="{StaticResource Key}" FontSize="21" />
+                <Button Grid.Row="4" Grid.Column="3" Text="e" CommandParameter="e" Clicked="OnKey" Style="{StaticResource KeyFn}" />
+                <Button Grid.Row="4" Grid.Column="4" Text="−" CommandParameter="-" Clicked="OnKey" Style="{StaticResource KeyOp}" />
+
+                <Button Grid.Row="5" Grid.Column="0" Text="4" CommandParameter="4" Clicked="OnKey" Style="{StaticResource Key}" FontSize="21" />
+                <Button Grid.Row="5" Grid.Column="1" Text="5" CommandParameter="5" Clicked="OnKey" Style="{StaticResource Key}" FontSize="21" />
+                <Button Grid.Row="5" Grid.Column="2" Text="6" CommandParameter="6" Clicked="OnKey" Style="{StaticResource Key}" FontSize="21" />
+                <Button Grid.Row="5" Grid.Column="3" Text="," CommandParameter="," Clicked="OnKey" Style="{StaticResource KeyFn}" />
+                <Button Grid.Row="5" Grid.Column="4" Text="+" CommandParameter="+" Clicked="OnKey" Style="{StaticResource KeyOp}" />
+
+                <Button Grid.Row="6" Grid.Column="0" Text="1" CommandParameter="1" Clicked="OnKey" Style="{StaticResource Key}" FontSize="21" />
+                <Button Grid.Row="6" Grid.Column="1" Text="2" CommandParameter="2" Clicked="OnKey" Style="{StaticResource Key}" FontSize="21" />
+                <Button Grid.Row="6" Grid.Column="2" Text="3" CommandParameter="3" Clicked="OnKey" Style="{StaticResource Key}" FontSize="21" />
+                <Button Grid.Row="6" Grid.Column="3" Text="STO→" CommandParameter="→" Clicked="OnKey" Style="{StaticResource KeyFn}" FontSize="13" />
+                <Button Grid.Row="6" Grid.Column="4" Grid.RowSpan="2" Text="=" CommandParameter="EVAL" Clicked="OnKey" Style="{StaticResource KeyAccent}" />
+
+                <Button Grid.Row="7" Grid.Column="0" Text="0" CommandParameter="0" Clicked="OnKey" Style="{StaticResource Key}" FontSize="21" />
+                <Button Grid.Row="7" Grid.Column="1" Text="." CommandParameter="." Clicked="OnKey" Style="{StaticResource Key}" FontSize="21" />
+                <Button Grid.Row="7" Grid.Column="2" Text="(-)" CommandParameter="-" Clicked="OnKey" Style="{StaticResource Key}" FontSize="17" />
+                <Button Grid.Row="7" Grid.Column="3" Text="Ans" CommandParameter="Ans" Clicked="OnKey" Style="{StaticResource KeyFn}" />
+            </Grid>
+        </Border>
+    </Grid>
+</ContentView>

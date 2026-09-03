@@ -1,0 +1,9 @@
+<Project>
+  <!-- Point the Android build at the local SDK / JDK so a plain `dotnet build`
+       works without extra command-line flags. Both are conditional on Exists so
+       this stays harmless on another machine. -->
+  <PropertyGroup>
+    <AndroidSdkDirectory Condition="'$(AndroidSdkDirectory)' == '' AND Exists('$(LOCALAPPDATA)\Android\Sdk')">$(LOCALAPPDATA)\Android\Sdk</AndroidSdkDirectory>
+    <JavaSdkDirectory Condition="'$(JavaSdkDirectory)' == '' AND Exists('$(USERPROFILE)\.jdks\jbr-21.0.11')">$(USERPROFILE)\.jdks\jbr-21.0.11</JavaSdkDirectory>
+  </PropertyGroup>
+</Project>
