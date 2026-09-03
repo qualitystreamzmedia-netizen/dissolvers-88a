@@ -33,6 +33,8 @@
                              Checked="Tab_Checked" />
                 <RadioButton x:Name="TabStats" Style="{StaticResource ModeTab}" Content="Stats"
                              Checked="Tab_Checked" />
+                <RadioButton x:Name="TabR" Style="{StaticResource ModeTab}" Content="R"
+                             Checked="Tab_Checked" />
             </StackPanel>
 
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
@@ -50,6 +52,7 @@
             <views:CalculatorView x:Name="CalcView" />
             <views:GrapherView x:Name="GraphView" Visibility="Collapsed" />
             <views:StatsView x:Name="StatsView" Visibility="Collapsed" />
+            <views:RView x:Name="RView" Visibility="Collapsed" />
         </Grid>
     </Grid>
 </Window>

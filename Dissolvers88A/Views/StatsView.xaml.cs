@@ -11,6 +11,7 @@ public partial class StatsView : UserControl
 {
     private readonly ObservableCollection<StatRow> _rows = new();
     private readonly StatData _data = AppState.Stats;
+    private bool _syncingBack;
 
     /// <summary>Raised when the user sends a regression fit to the grapher.</summary>
     public event Action<string>? SendToGraph;
@@ -29,6 +30,11 @@ public partial class StatsView : UserControl
 
         Grid.ItemsSource = _rows;
         LoadFromData();
+        _data.Changed += () =>
+        {
+            if (_syncingBack) return;
+            Dispatcher.Invoke(LoadFromData);
+        };
     }
 
     private void LoadFromData()
@@ -53,11 +59,16 @@ public partial class StatsView : UserControl
 
     private void RebuildLists()
     {
-        for (int col = 0; col < 6; col++)
+        _syncingBack = true;
+        try
         {
-            int c = col;
-            _data.Set(c, _rows.Where(r => r[c].HasValue).Select(r => r[c]!.Value));
+            for (int col = 0; col < 6; col++)
+            {
+                int c = col;
+                _data.Set(c, _rows.Where(r => r[c].HasValue).Select(r => r[c]!.Value).ToList());
+            }
         }
+        finally { _syncingBack = false; }
     }
 
     private void ClearAll_Click(object sender, RoutedEventArgs e)

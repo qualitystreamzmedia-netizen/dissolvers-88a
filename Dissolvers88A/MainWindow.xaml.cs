@@ -18,14 +18,22 @@ public partial class MainWindow : Window
 
     private void Tab_Checked(object sender, RoutedEventArgs e)
     {
-        if (CalcView == null || GraphView == null || StatsView == null) return;
+        if (CalcView == null || GraphView == null || StatsView == null || RView == null) return;
 
         CalcView.Visibility = ReferenceEquals(sender, TabCalc) ? Visibility.Visible : Visibility.Collapsed;
         GraphView.Visibility = ReferenceEquals(sender, TabGraph) ? Visibility.Visible : Visibility.Collapsed;
         StatsView.Visibility = ReferenceEquals(sender, TabStats) ? Visibility.Visible : Visibility.Collapsed;
+        RView.Visibility = ReferenceEquals(sender, TabR) ? Visibility.Visible : Visibility.Collapsed;
 
         if (ReferenceEquals(sender, TabGraph)) GraphView.OnShown();
         else if (ReferenceEquals(sender, TabCalc)) CalcView.FocusInput();
+        else if (ReferenceEquals(sender, TabR)) RView.OnShown();
+    }
+
+    protected override void OnClosed(EventArgs e)
+    {
+        RView?.OnClosing();
+        base.OnClosed(e);
     }
 
     private void Angle_Checked(object sender, RoutedEventArgs e)
