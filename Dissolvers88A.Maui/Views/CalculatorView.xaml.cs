@@ -29,6 +29,38 @@ public partial class CalculatorView : ContentView
 
     public void SetDegrees(bool deg) => Vm.IsDegrees = deg;
 
+    // ---- portrait / landscape layout ------------------------------------
+
+    private bool _landscape;
+
+    private void OnRootSizeChanged(object? sender, EventArgs e)
+    {
+        if (RootGrid.Width <= 0 || RootGrid.Height <= 0) return;
+        bool landscape = RootGrid.Width > RootGrid.Height * 1.15;
+        if (landscape == _landscape) return;
+        _landscape = landscape;
+
+        RootGrid.RowDefinitions.Clear();
+        RootGrid.ColumnDefinitions.Clear();
+        if (landscape)
+        {
+            // display beside the keypad
+            RootGrid.ColumnDefinitions.Add(new ColumnDefinition(new GridLength(4, GridUnitType.Star)));
+            RootGrid.ColumnDefinitions.Add(new ColumnDefinition(new GridLength(6, GridUnitType.Star)));
+            RootGrid.RowDefinitions.Add(new RowDefinition(GridLength.Star));
+            Grid.SetRow(DisplayBorder, 0); Grid.SetColumn(DisplayBorder, 0);
+            Grid.SetRow(KeypadBorder, 0); Grid.SetColumn(KeypadBorder, 1);
+        }
+        else
+        {
+            RootGrid.RowDefinitions.Add(new RowDefinition(new GridLength(2, GridUnitType.Star)));
+            RootGrid.RowDefinitions.Add(new RowDefinition(new GridLength(5, GridUnitType.Star)));
+            RootGrid.ColumnDefinitions.Add(new ColumnDefinition(GridLength.Star));
+            Grid.SetRow(DisplayBorder, 0); Grid.SetColumn(DisplayBorder, 0);
+            Grid.SetRow(KeypadBorder, 1); Grid.SetColumn(KeypadBorder, 0);
+        }
+    }
+
     // ---- keypad -----------------------------------------------------
 
     private void OnSecond(object? sender, EventArgs e)

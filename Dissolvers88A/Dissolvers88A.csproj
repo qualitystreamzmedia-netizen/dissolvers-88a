@@ -10,6 +10,12 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
+
+    <!-- Display identity (assembly/exe name stays Dissolvers88A so links keep working) -->
+    <AssemblyTitle>3A Apps Calculator</AssemblyTitle>
+    <Product>3A Apps Calculator</Product>
+    <Company>3A Apps</Company>
+    <Version>1.2.0</Version>
   </PropertyGroup>
 
 </Project>

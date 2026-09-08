@@ -39,9 +39,10 @@
         </Style>
     </ContentView.Resources>
 
-    <Grid RowDefinitions="2*,5*" RowSpacing="8">
+    <Grid x:Name="RootGrid" RowDefinitions="2*,5*" RowSpacing="8" ColumnSpacing="8"
+          SizeChanged="OnRootSizeChanged">
 
-        <Border Grid.Row="0" BackgroundColor="{StaticResource D.Navy}" StrokeThickness="0">
+        <Border x:Name="DisplayBorder" Grid.Row="0" BackgroundColor="{StaticResource D.Navy}" StrokeThickness="0">
             <Border.StrokeShape><RoundRectangle CornerRadius="14" /></Border.StrokeShape>
             <Grid RowDefinitions="*,Auto,Auto,Auto" Padding="16,14">
                 <CollectionView Grid.Row="0" x:Name="HistoryList" ItemsSource="{Binding History}"
@@ -75,7 +76,7 @@
             </Grid>
         </Border>
 
-        <Border Grid.Row="1" BackgroundColor="{StaticResource D.Panel}" StrokeThickness="0" Padding="5">
+        <Border x:Name="KeypadBorder" Grid.Row="1" BackgroundColor="{StaticResource D.Panel}" StrokeThickness="0" Padding="5">
             <Border.StrokeShape><RoundRectangle CornerRadius="14" /></Border.StrokeShape>
             <Grid x:Name="Keypad" ColumnDefinitions="*,*,*,*,*"
                   RowDefinitions="*,*,*,*,*,*,*,*">

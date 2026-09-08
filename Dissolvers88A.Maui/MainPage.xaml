@@ -6,16 +6,17 @@
              Shell.NavBarIsVisible="False"
              BackgroundColor="{StaticResource D.GradB}">
 
-    <Grid RowDefinitions="Auto,Auto,*" Padding="10,8,10,10" RowSpacing="8">
+    <Grid RowDefinitions="Auto,Auto,*" Padding="10,14,10,10" RowSpacing="8">
 
-        <!-- title bar: wordmark · angle -->
+        <!-- title bar: logo + wordmark · angle -->
         <Grid Grid.Row="0" ColumnDefinitions="*,Auto" Padding="2,0">
             <HorizontalStackLayout Grid.Column="0" Spacing="7" VerticalOptions="Center">
-                <Label Text="DISSOLVERS" FontAttributes="Bold" FontSize="15"
+                <Image Source="logo3a.svg" HeightRequest="26" WidthRequest="26" VerticalOptions="Center" />
+                <Label Text="3A Apps" FontAttributes="Bold" FontSize="15"
                        TextColor="{StaticResource D.Navy}" VerticalOptions="Center" />
                 <Border BackgroundColor="{StaticResource D.Accent}" StrokeThickness="0" Padding="5,1" VerticalOptions="Center">
                     <Border.StrokeShape><RoundRectangle CornerRadius="5" /></Border.StrokeShape>
-                    <Label Text="88A" TextColor="White" FontAttributes="Bold" FontSize="10" />
+                    <Label Text="3A" TextColor="White" FontAttributes="Bold" FontSize="10" />
                 </Border>
             </HorizontalStackLayout>
 
