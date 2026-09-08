@@ -12,7 +12,7 @@
         <Grid Grid.Row="0" ColumnDefinitions="*,Auto" Padding="2,0">
             <HorizontalStackLayout Grid.Column="0" Spacing="7" VerticalOptions="Center">
                 <Image Source="logo3a.svg" HeightRequest="26" WidthRequest="26" VerticalOptions="Center" />
-                <Label Text="3A Apps" FontAttributes="Bold" FontSize="15"
+                <Label Text="Posaba" FontAttributes="Bold" FontSize="16"
                        TextColor="{StaticResource D.Navy}" VerticalOptions="Center" />
                 <Border BackgroundColor="{StaticResource D.Accent}" StrokeThickness="0" Padding="5,1" VerticalOptions="Center">
                     <Border.StrokeShape><RoundRectangle CornerRadius="5" /></Border.StrokeShape>

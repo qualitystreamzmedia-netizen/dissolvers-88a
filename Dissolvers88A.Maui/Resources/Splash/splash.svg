@@ -2,25 +2,25 @@
 <svg width="1024" height="1024" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
   <g transform="translate(205 205) scale(0.6)">
   <g fill="none" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M 118 686 Q 512 1074 906 686" stroke="#7C4DFF" stroke-width="84" />
-    <g stroke="#F84DA6" stroke-width="72">
+    <path d="M 118 686 Q 512 1074 906 686" stroke="#7C3AED" stroke-width="84" />
+    <g stroke="#22B8E0" stroke-width="72">
       <path d="M 328 512 L 224 880" />
       <path d="M 328 512 L 432 880" />
       <path d="M 286 748 L 370 748" />
     </g>
-    <circle cx="328" cy="392" r="94" fill="#F84DA6" />
-    <g stroke="#8B5CF6" stroke-width="72">
+    <circle cx="328" cy="392" r="94" fill="#22B8E0" />
+    <g stroke="#7C3AED" stroke-width="72">
       <path d="M 696 512 L 592 880" />
       <path d="M 696 512 L 800 880" />
       <path d="M 654 748 L 738 748" />
     </g>
-    <circle cx="696" cy="392" r="94" fill="#8B5CF6" />
-    <g stroke="#FFD23F" stroke-width="92">
+    <circle cx="696" cy="392" r="94" fill="#7C3AED" />
+    <g stroke="#14A098" stroke-width="92">
       <path d="M 512 286 L 378 892" />
       <path d="M 512 286 L 646 892" />
       <path d="M 446 626 L 578 626" />
     </g>
-    <circle cx="512" cy="178" r="122" fill="#FFD23F" />
+    <circle cx="512" cy="178" r="122" fill="#14A098" />
   </g>
   </g>
 </svg>
