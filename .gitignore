@@ -1,12 +1,14 @@
-# Build output
+# Build output / distributables
 bin/
 obj/
 dist/
+Calculator/
 
 # Publish
 publish/
 *.apk
 *.aab
+*.exe
 
 # IDE / user
 .vs/
