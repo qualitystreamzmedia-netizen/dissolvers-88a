@@ -13,6 +13,7 @@ public partial class MainPage : ContentPage
             GraphView.SetStatPlot(Dissolvers88A.Maui.ViewModels.StatPlotKind.Scatter, x, y);
             Show(1);
         };
+        Show(0);
     }
 
     private void OnCalcTab(object? sender, EventArgs e) => Show(0);
@@ -31,6 +32,12 @@ public partial class MainPage : ContentPage
         Style(GraphTab, mode == 1);
         Style(StatsTab, mode == 2);
         Style(RTab, mode == 3);
+
+        // Drop the soft keyboard when leaving a screen, and only let it resize
+        // the window on the R tab (that page needs the console input kept in
+        // view; on the others a resize just squishes the layout).
+        DismissKeyboard();
+        SetSoftInputResize(mode == 3);
 
         if (mode == 1) GraphView.OnShown();
         else if (mode == 3) RView.OnShown();
@@ -55,5 +62,28 @@ public partial class MainPage : ContentPage
         GraphView.Vm.Functions[0].Text = expression;
         GraphView.Vm.Functions[0].Enabled = true;
         Show(1);
+    }
+
+    static void DismissKeyboard()
+    {
+#if ANDROID
+        var activity = Platform.CurrentActivity;
+        if (activity is null) return;
+        var imm = (Android.Views.InputMethods.InputMethodManager?)
+            activity.GetSystemService(Android.Content.Context.InputMethodService);
+        var token = activity.CurrentFocus?.WindowToken
+                    ?? activity.Window?.DecorView?.WindowToken;
+        if (imm is not null && token is not null)
+            imm.HideSoftInputFromWindow(token, Android.Views.InputMethods.HideSoftInputFlags.None);
+        activity.CurrentFocus?.ClearFocus();
+#endif
+    }
+
+    static void SetSoftInputResize(bool resize)
+    {
+#if ANDROID
+        Platform.CurrentActivity?.Window?.SetSoftInputMode(
+            resize ? Android.Views.SoftInput.AdjustResize : Android.Views.SoftInput.AdjustPan);
+#endif
     }
 }

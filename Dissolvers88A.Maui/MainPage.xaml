@@ -4,6 +4,7 @@
              xmlns:views="clr-namespace:Dissolvers88A.Maui.Views"
              x:Class="Dissolvers88A.Maui.MainPage"
              Shell.NavBarIsVisible="False"
+             HideSoftInputOnTapped="True"
              BackgroundColor="{StaticResource D.GradB}">
 
     <Grid RowDefinitions="Auto,Auto,*" Padding="10,14,10,10" RowSpacing="8">

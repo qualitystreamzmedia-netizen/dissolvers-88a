@@ -169,18 +169,26 @@ cmd.addEventListener('keydown', e=>{
 });
 document.querySelectorAll('#demos button').forEach(b=>b.addEventListener('click',()=>runR(b.dataset.r)));
 
-// ---- keep the input line above the on-screen keyboard --------------
-if(window.visualViewport){
-  const vv=window.visualViewport; let full=vv.height;
-  const fit=()=>{
-    full=Math.max(full,vv.height);
-    document.body.style.height=vv.height+'px';
-    document.body.classList.toggle('kbd', vv.height < full-100);
-    log.scrollTop=log.scrollHeight;
-  };
-  vv.addEventListener('resize',fit); vv.addEventListener('scroll',fit); fit();
+// ---- keyboard handling -------------------------------------------
+// The Android window is in AdjustResize while this tab is open, so when the
+// keyboard shows the whole page shrinks. Collapse the plot pane then so the
+// console (output + input line) keeps the space. Detect via the window height
+// dropping below the tallest we've seen. (Do NOT touch body height or listen
+// to visualViewport 'scroll' — that races the text field and eats keystrokes.)
+let fullH = window.innerHeight;
+function onResize(){
+  fullH = Math.max(fullH, window.innerHeight);
+  document.body.classList.toggle('kbd', window.innerHeight < fullH - 120);
+  log.scrollTop = log.scrollHeight;
 }
-cmd.addEventListener('focus',()=> setTimeout(()=>{ log.scrollTop=log.scrollHeight; }, 200));
+window.addEventListener('resize', onResize);
+onResize();
+
+// Tap the plot or the transcript to dismiss the keyboard.
+[pane, log].forEach(el => el.addEventListener('pointerdown', e => {
+  if (e.target.tagName !== 'INPUT' && e.target.tagName !== 'BUTTON') cmd.blur();
+}));
+cmd.addEventListener('focus', () => setTimeout(() => { log.scrollTop = log.scrollHeight; }, 200));
 
 // ---- bridge to the MAUI host ----------------------------------------
 window.d88a = {
