@@ -11,15 +11,15 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 
-		<!-- Display name -->
-		<ApplicationTitle>Posaba</ApplicationTitle>
+		<!-- Display name (was just "Posaba" - ambiguous next to Posaba TV) -->
+		<ApplicationTitle>Posaba Calculator</ApplicationTitle>
 
 		<!-- App Identifier (unchanged so installs upgrade in place) -->
 		<ApplicationId>com.dissolvers.calc88a</ApplicationId>
 
 		<!-- Versions -->
-		<ApplicationDisplayVersion>1.5</ApplicationDisplayVersion>
-		<ApplicationVersion>8</ApplicationVersion>
+		<ApplicationDisplayVersion>1.6</ApplicationDisplayVersion>
+		<ApplicationVersion>9</ApplicationVersion>
 
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">11.0</SupportedOSPlatformVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'">13.1</SupportedOSPlatformVersion>
